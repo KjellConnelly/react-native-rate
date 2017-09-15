@@ -75,9 +75,9 @@ export default class ExamplePage extends React.Component {
 #### options:
 There are lots of options. You can ignore some of them if you don't plan to have them on that App Store. 
 
-| AppleAppID | GooglePackageName | AmazonPackageName | preferGoogle | preferInApp | fallbackPlatformURL |
-| -- | --- | -- | --- | -- | --- |
-| When you create an app in iTunes Connect, you get a number that is around 10 digits long. | Created when you create an app on Google Play Developer Console. | Create when you create an app on the Amazon Developer Console. | This only matters if you plan to deploy to both Google Play and Amazon. Since there is no reliable way to check at run time where the app was downloaded from, we suggest creating your own build logic to decipher if the app was built for Google Play or Amazon. | If true and user is on iOS, tries to use `SKStoreReviewController`. If fails for whatever reason, or user is on another platform, opens the App Store externally. | `if ((Platform.OS != 'ios) && (Platform.OS != 'android'))`, open this URL. |
+| AppleAppID | GooglePackageName | AmazonPackageName | preferGoogle | preferInApp | fallbackPlatformURL | inAppDelay |
+| -- | --- | -- | --- | -- | --- | --- |
+| When you create an app in iTunes Connect, you get a number that is around 10 digits long. | Created when you create an app on Google Play Developer Console. | Create when you create an app on the Amazon Developer Console. | This only matters if you plan to deploy to both Google Play and Amazon. Since there is no reliable way to check at run time where the app was downloaded from, we suggest creating your own build logic to decipher if the app was built for Google Play or Amazon. | If true and user is on iOS, tries to use `SKStoreReviewController`. If fails for whatever reason, or user is on another platform, opens the App Store externally. | `if ((Platform.OS != 'ios) && (Platform.OS != 'android'))`, open this URL. | (IOS ONLY) Delay to wait for the InApp review dialog to show (if preferInApp == true). After delay, opens the App Store if the InApp review doesn't show. Default 3.0 |
 
 
 ##### Options Example1
