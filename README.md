@@ -32,6 +32,8 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 - Users can only rate the app 1-5 stars. They cannot write a review.
 - To prevent annoying popups, Apple decides whether or not you can display it, and they do not offer a callback to let you know if it was displayed or not. It is limited to being shown 3-4 times per year.
 - If you do want this ReviewController to show up, we wrote a little hack to see if it worked, and if it doesn't, we just open the App Store (using the optional for all devices pre-iOS10.3). Hopefully this hack continues to work, and hopefully Apple updates the API so we don't have to use this hack.
+- If you set `options.preferInApp = true`, the popup will happen on appropriate devices the first time you call it after the app is open. The hack used checks the number of windows the application has. For some reason, when the inapp window is dismissed, it is still on the stack. So if you try it again, the popup will appear (if it is 3 or less times you've done it this year), but after a short delay, the App Store will open too.
+- Due to all these issues, we recommend only setting preferInApp to true when you are absolutely sure you want a one time, rare chance to ask users to rate your app from within the app. Do not use it to spam them between levels. Do not have a button for rating/reviewing the app, and call this method. And if you want to have a really professional app, save the number of attempts to the device, along with a date. Otherwise you will get some strange behavior.
 
 ## Example
 ```javascript
@@ -54,7 +56,7 @@ export default class ExamplePage extends React.Component {
                         GooglePackageName:"com.mywebsite.myapp",
                         AmazonPackageName:"com.mywebsite.myapp",
                         preferGoogle:true,
-                        preferInApp:true,
+                        preferInApp:false,
                         fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
                     }
                     Rate.rate(options, (success)=>{
@@ -80,7 +82,7 @@ There are lots of options. You can ignore some of them if you don't plan to have
 
 ##### Options Example1
 ```javascript
-// iOS only, prefers in-app rating (this is the default)
+// iOS only, not using in-app rating (this is the default)
 let options = {
     AppleAppID:"2193813192",
 }
@@ -98,18 +100,18 @@ let options = {
 
 ##### Options Example3
 ```javascript
-// targets only iOS app store and Amazon App Store (not google play). Also, on iOS, doesn't open SKStoreReviewController. 
+// targets only iOS app store and Amazon App Store (not google play). Also, on iOS, tries to open SKStoreReviewController. 
 let options = {
     AppleAppID:"2193813192",
     AmazonPackageName:"com.mywebsite.myapp",
     preferGoogle:false,
-    preferInApp:false,
+    preferInApp:true,
 }
 ````
 
 ##### Options Example4
 ```javascript
-// targets iOS, Google Play, and Amazon. Also targets Windows, so has a specific URL if Platform isn't ios or android. Like example 2, custom build tools are used to check if built for Google Play or Amazon. Prefers inapp rating for iOS.
+// targets iOS, Google Play, and Amazon. Also targets Windows, so has a specific URL if Platform isn't ios or android. Like example 2, custom build tools are used to check if built for Google Play or Amazon. Prefers not using InApp rating for iOS.
 let options = {
     AppleAppID:"2193813192",
     GooglePackageName:"com.mywebsite.myapp",
