@@ -41,11 +41,11 @@ export default class Rate {
 	}
 
 	static openURL(url, callback) {
-	Linking.canOpenURL(url).then(supported => {
-		callback(supported)
-      if (supported)
+  	Linking.canOpenURL(url).then(supported => {
+  		callback(supported)
+      if (supported) {
         Linking.openURL(url)
-		)
+      }
     })
 	}
 }
