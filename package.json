@@ -1,20 +1,25 @@
-
 {
   "name": "react-native-rate",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "React Native Rate is a cross platform solution to getting users to easily rate your app.",
+  "main": "index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native"
+    "react-native","react","rate","review","rating","rate me"
   ],
-  "author": "",
-  "license": "",
+  "author": "Kjell Connelly",
+  "license": "MIT",
   "peerDependencies": {
-    "react-native": "^0.41.2",
-    "react-native-windows": "0.41.0-rc.1"
 
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KjellConnelly/react-native-rate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KjellConnelly/react-native-rate/issues"
+  },
+  "homepage": "https://github.com/KjellConnelly/react-native-rate#readme"
 }
