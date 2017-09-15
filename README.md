@@ -35,7 +35,7 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 
 ## Example
 ```javascript
-import Rate from 'react-native-rate';
+import Rate from 'react-native-rate'
 
 export default class ExamplePage extends React.Component {
     constructor(props) {
