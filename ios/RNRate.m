@@ -10,7 +10,7 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
     
     NSString *AppleAppID = [RCTConvert NSString:options[@"AppleAppID"]];
     NSString *AppleNativePrefix = [RCTConvert NSString:options[@"AppleNativePrefix"]];
-    BOOL *preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
+    BOOL preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
     
     NSString *suffix = @"?action=write-review";
     
