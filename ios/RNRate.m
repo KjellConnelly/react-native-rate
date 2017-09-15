@@ -11,6 +11,8 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
     NSString *AppleAppID = [RCTConvert NSString:options[@"AppleAppID"]];
     NSString *AppleNativePrefix = [RCTConvert NSString:options[@"AppleNativePrefix"]];
     BOOL preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
+    float inAppDelay = [RCTConvert float:options[@"inAppDelay"]];
+    
     
     NSString *suffix = @"?action=write-review";
     
@@ -21,7 +23,7 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
             NSUInteger windowCount = [[[UIApplication sharedApplication] windows] count];
             
             [SKStoreReviewController requestReview];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(inAppDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 if (windowCount <= [[[UIApplication sharedApplication] windows] count]) {
                     [self openAppStoreAndRate:url];
                 }

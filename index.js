@@ -13,6 +13,7 @@ export default class Rate {
 			AmazonPackageName:"",
 			preferGoogle:true,
 			preferInApp:true,
+      inAppDelay:3.0,
       fallbackPlatformURL:"",
 		}
 		Object.keys(inputOptions).forEach(function(key) {
