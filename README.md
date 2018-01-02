@@ -24,7 +24,7 @@ React Native Rate is a cross platform solution to getting users to easily rate y
 4. Run your project (`Cmd+R`)<
 
 #### Other Platforms
-Android, Windows, etc don't use any native code. So don't worry!
+Android, Windows, etc don't use any native code. So don't worry! (There still is linking to Android if you do react-native link. We only left this here so that we can call native code if there is native code to call someday.)
 
 #### iOS Specific:
 
