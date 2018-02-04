@@ -5,13 +5,21 @@ const AppleWebPrefix = "https://itunes.apple.com/app/id"
 const GooglePrefix = "http://play.google.com/store/apps/details?id="
 const AmazonPrefix = "amzn://apps/android?p="
 
+export const AndroidMarket = {
+	Google: 1,
+	Amazon: 2,
+	Other: 3
+};
+
 export default class Rate {
 	static filterOptions(inputOptions) {
 		let options = {
 			AppleAppID:"",
 			GooglePackageName:"",
 			AmazonPackageName:"",
-			preferGoogle:true,
+			OtherMarketPackageName:"",
+			OtherMarketPrefix:"",
+			preferredAndroidMarket:AndroidMarket.Google,
 			preferInApp:false,
 			inAppDelay:3.0,
 			fallbackPlatformURL:"",
@@ -31,10 +39,12 @@ export default class Rate {
 				callback(response) // error?
 			})
 		} else if (Platform.OS == 'android') {
-			if (options.preferGoogle) {
+			if (options.preferredAndroidMarket === AndroidMarket.Google) {
 				Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
-			} else {
+			} else if (options.preferredAndroidMarket === AndroidMarket.Amazon) {
 				Rate.openURL(AmazonPrefix + options.AmazonPackageName, callback)
+			} else {
+				Rate.openURL(options.OtherMarketPrefix + options.OtherMarketPackageName, callback);
 			}
 		} else {
 			Rate.openURL(options.fallbackPlatformURL, callback)
@@ -42,11 +52,11 @@ export default class Rate {
 	}
 
 	static openURL(url, callback) {
-  	Linking.canOpenURL(url).then(supported => {
-  		callback(supported)
-      if (supported) {
-        Linking.openURL(url)
-      }
-    })
+		Linking.canOpenURL(url).then(supported => {
+			callback(supported)
+			if (supported) {
+				Linking.openURL(url)
+			}
+		})
 	}
 }
