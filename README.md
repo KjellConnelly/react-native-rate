@@ -5,7 +5,7 @@ React Native Rate is a cross platform solution to getting users to easily rate y
 ##### Stores Supported:
 Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 --- | --- | --- | --- | --- 
-**✓** | **✓** | **✓** | **✓** | **✓** If your platform isn't one of the others, you can input a fallback url to send users to instead
+**✓** | **✓** | **✓** | **✓** Building your app for a different Android store, you can provide your own URL | **✓** If your platform isn't one of the others, you can input a fallback url to send users to instead
 
 
 ## Getting started
@@ -56,8 +56,7 @@ export default class ExamplePage extends React.Component {
                         AppleAppID:"2193813192",
                         GooglePackageName:"com.mywebsite.myapp",
                         AmazonPackageName:"com.mywebsite.myapp",
-                        OtherMarketPackageName: 'com.mywebsite.myapp',
-                        OtherMarketPrefix: 'otherMarket://details?id=',
+                        OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
                         preferredAndroidMarket: AndroidMarket.Google,
                         preferInApp:false,
                         fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
@@ -94,18 +93,17 @@ let options = {
 ##### Options Example2
 ```javascript
 // Android only, able to target both Google Play & Android stores. You have to write custom build code to find out if the build was for the Amazon App Store, or Google Play
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
 let options = {
     GooglePackageName:"com.mywebsite.myapp",
     AmazonPackageName:"com.mywebsite.myapp",
-    OtherMarketPackageName: 'com.mywebsite.myapp',
-    OtherMarketPrefix: 'otherMarket://details?id=',
-    preferredAndroidMarket: (this.state.androidPlatform === 'google') ? AndroidMarket.Google : ((this.state.androidPlatform === 'google') ? AndroidMarket.Amazon : AndroidMarket.Other),
+    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
 }
 ```
 
 ##### Options Example3
 ```javascript
-// targets only iOS app store and Amazon App Store (not google play). Also, on iOS, tries to open SKStoreReviewController. 
+// targets only iOS app store and Amazon App Store (not google play or anything else). Also, on iOS, tries to open SKStoreReviewController.
 let options = {
     AppleAppID:"2193813192",
     AmazonPackageName:"com.mywebsite.myapp",
@@ -117,14 +115,25 @@ let options = {
 ##### Options Example4
 ```javascript
 // targets iOS, Google Play, and Amazon. Also targets Windows, so has a specific URL if Platform isn't ios or android. Like example 2, custom build tools are used to check if built for Google Play or Amazon. Prefers not using InApp rating for iOS.
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
 let options = {
     AppleAppID:"2193813192",
     GooglePackageName:"com.mywebsite.myapp",
     AmazonPackageName:"com.mywebsite.myapp",
-    OtherMarketPackageName: 'com.mywebsite.myapp',
-    OtherMarketPrefix: 'otherMarket://details?id=',
-    preferredAndroidMarket: (this.state.androidPlatform === 'google') ? AndroidMarket.Google : ((this.state.androidPlatform === 'google') ? AndroidMarket.Amazon : AndroidMarket.Other),
+    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
     fallbackPlatformURL:"ms-windows-store:review?PFN:com.mywebsite.myapp",
+}
+````
+
+##### Options Example5
+```javascript
+// targets 4 different android stores: Google Play, Amazon, and 2 fake hypothetical stores: CoolApps and Andrule
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
+let options = {
+    GooglePackageName:"com.mywebsite.myapp",
+    AmazonPackageName:"com.mywebsite.myapp",
+    preferredAndroidMarket: (androidPlatform == 'google') ? AndroidMarket.Google : (androidPlatform == 'amazon' ? AndroidMarket.Amazon : AndroidMarket.Other),
+    OtherAndroidURL:(androidPlatform == 'CoolApps') ? "http://www.coolapps.net/apps/31242342" : "http://www.andrule.com/apps/dev/21312"
 }
 ````
 

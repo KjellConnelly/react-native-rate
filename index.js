@@ -9,7 +9,7 @@ export const AndroidMarket = {
 	Google: 1,
 	Amazon: 2,
 	Other: 3
-};
+}
 
 export default class Rate {
 	static filterOptions(inputOptions) {
@@ -17,8 +17,7 @@ export default class Rate {
 			AppleAppID:"",
 			GooglePackageName:"",
 			AmazonPackageName:"",
-			OtherMarketPackageName:"",
-			OtherMarketPrefix:"",
+			OtherAndroidURL:"",
 			preferredAndroidMarket:AndroidMarket.Google,
 			preferInApp:false,
 			inAppDelay:3.0,
@@ -43,8 +42,8 @@ export default class Rate {
 				Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
 			} else if (options.preferredAndroidMarket === AndroidMarket.Amazon) {
 				Rate.openURL(AmazonPrefix + options.AmazonPackageName, callback)
-			} else {
-				Rate.openURL(options.OtherMarketPrefix + options.OtherMarketPackageName, callback);
+			} else if (options.preferredAndroidMarket === AndroidMarket.Other) {
+				Rate.openURL(OtherAndroidURL, callback)
 			}
 		} else {
 			Rate.openURL(options.fallbackPlatformURL, callback)
