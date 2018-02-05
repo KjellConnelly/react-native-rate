@@ -3,9 +3,10 @@
 React Native Rate is a cross platform solution to getting users to easily rate your app.
 
 ##### Stores Supported:
-| Apple App Store | Google Play | Amazon | All Others |
-| --------------- | ----------- | ------ | ---------- |
-| ✓              |        ✓    |   ✓    |  ✓ If      your platform isn't one of the others, you can input a fallback url to send users to instead    |
+Apple App Store | Google Play | Amazon | Other Android Markets | All Others
+--- | --- | --- | --- | --- 
+**✓** | **✓** | **✓** | **✓** Building your app for a different Android store, you can provide your own URL | **✓** If your platform isn't one of the others, you can input a fallback url to send users to instead
+
 
 ## Getting started
 
@@ -37,7 +38,7 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 
 ## Example
 ```javascript
-import Rate from 'react-native-rate'
+import Rate, { AndroidMarket } from 'react-native-rate'
 
 export default class ExamplePage extends React.Component {
     constructor(props) {
@@ -55,7 +56,8 @@ export default class ExamplePage extends React.Component {
                         AppleAppID:"2193813192",
                         GooglePackageName:"com.mywebsite.myapp",
                         AmazonPackageName:"com.mywebsite.myapp",
-                        preferGoogle:true,
+                        OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
+                        preferredAndroidMarket: AndroidMarket.Google,
                         preferInApp:false,
                         fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
                     }
@@ -75,9 +77,9 @@ export default class ExamplePage extends React.Component {
 #### options:
 There are lots of options. You can ignore some of them if you don't plan to have them on that App Store. 
 
-| AppleAppID | GooglePackageName | AmazonPackageName | preferGoogle | preferInApp | fallbackPlatformURL | inAppDelay |
+| AppleAppID | GooglePackageName | AmazonPackageName | preferredAndroidMarket | preferInApp | fallbackPlatformURL | inAppDelay |
 | -- | --- | -- | --- | -- | --- | --- |
-| When you create an app in iTunes Connect, you get a number that is around 10 digits long. | Created when you create an app on Google Play Developer Console. | Create when you create an app on the Amazon Developer Console. | This only matters if you plan to deploy to both Google Play and Amazon. Since there is no reliable way to check at run time where the app was downloaded from, we suggest creating your own build logic to decipher if the app was built for Google Play or Amazon. | If true and user is on iOS, tries to use `SKStoreReviewController`. If fails for whatever reason, or user is on another platform, opens the App Store externally. | `if ((Platform.OS != 'ios) && (Platform.OS != 'android'))`, open this URL. | (IOS ONLY) Delay to wait for the InApp review dialog to show (if preferInApp == true). After delay, opens the App Store if the InApp review doesn't show. Default 3.0 |
+| When you create an app in iTunes Connect, you get a number that is around 10 digits long. | Created when you create an app on Google Play Developer Console. | Create when you create an app on the Amazon Developer Console. | This only matters if you plan to deploy to both Google Play and Amazon or other markets. Since there is no reliable way to check at run time where the app was downloaded from, we suggest creating your own build logic to decipher if the app was built for Google Play or Amazon, or Other markets. Available Options: AndroidMarket.Google, AndroidMarket.Amazon, Other | If true and user is on iOS, tries to use `SKStoreReviewController`. If fails for whatever reason, or user is on another platform, opens the App Store externally. | `if ((Platform.OS != 'ios) && (Platform.OS != 'android'))`, open this URL. | (IOS ONLY) Delay to wait for the InApp review dialog to show (if preferInApp == true). After delay, opens the App Store if the InApp review doesn't show. Default 3.0 |
 
 
 ##### Options Example1
@@ -91,20 +93,21 @@ let options = {
 ##### Options Example2
 ```javascript
 // Android only, able to target both Google Play & Android stores. You have to write custom build code to find out if the build was for the Amazon App Store, or Google Play
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
 let options = {
     GooglePackageName:"com.mywebsite.myapp",
     AmazonPackageName:"com.mywebsite.myapp",
-    preferGoogle:this.state.androidPlatform == 'google',
+    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
 }
 ```
 
 ##### Options Example3
 ```javascript
-// targets only iOS app store and Amazon App Store (not google play). Also, on iOS, tries to open SKStoreReviewController. 
+// targets only iOS app store and Amazon App Store (not google play or anything else). Also, on iOS, tries to open SKStoreReviewController.
 let options = {
     AppleAppID:"2193813192",
     AmazonPackageName:"com.mywebsite.myapp",
-    preferGoogle:false,
+    preferredAndroidMarket:AndroidMarket.Amazon,
     preferInApp:true,
 }
 ````
@@ -112,12 +115,25 @@ let options = {
 ##### Options Example4
 ```javascript
 // targets iOS, Google Play, and Amazon. Also targets Windows, so has a specific URL if Platform isn't ios or android. Like example 2, custom build tools are used to check if built for Google Play or Amazon. Prefers not using InApp rating for iOS.
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
 let options = {
     AppleAppID:"2193813192",
     GooglePackageName:"com.mywebsite.myapp",
     AmazonPackageName:"com.mywebsite.myapp",
-    preferGoogle:this.state.androidPlatform == 'google',
+    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
     fallbackPlatformURL:"ms-windows-store:review?PFN:com.mywebsite.myapp",
+}
+````
+
+##### Options Example5
+```javascript
+// targets 4 different android stores: Google Play, Amazon, and 2 fake hypothetical stores: CoolApps and Andrule
+import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
+let options = {
+    GooglePackageName:"com.mywebsite.myapp",
+    AmazonPackageName:"com.mywebsite.myapp",
+    preferredAndroidMarket: (androidPlatform == 'google') ? AndroidMarket.Google : (androidPlatform == 'amazon' ? AndroidMarket.Amazon : AndroidMarket.Other),
+    OtherAndroidURL:(androidPlatform == 'CoolApps') ? "http://www.coolapps.net/apps/31242342" : "http://www.andrule.com/apps/dev/21312"
 }
 ````
 
