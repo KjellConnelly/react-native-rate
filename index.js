@@ -43,7 +43,7 @@ export default class Rate {
 			} else if (options.preferredAndroidMarket === AndroidMarket.Amazon) {
 				Rate.openURL(AmazonPrefix + options.AmazonPackageName, callback)
 			} else if (options.preferredAndroidMarket === AndroidMarket.Other) {
-				Rate.openURL(OtherAndroidURL, callback)
+				Rate.openURL(options.OtherAndroidURL, callback)
 			}
 		} else {
 			Rate.openURL(options.fallbackPlatformURL, callback)
