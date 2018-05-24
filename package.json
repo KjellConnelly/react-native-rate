@@ -1,19 +1,23 @@
 {
   "name": "react-native-rate",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "React Native Rate is a cross platform solution to getting users to easily rate your app.",
   "main": "index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm --no-git-tag-version version patch && git add . && git commit -am \"Next Version\" && git push && npm publish"
   },
   "keywords": [
-    "react-native","react","rate","review","rating","rate me"
+    "react-native",
+    "react",
+    "rate",
+    "review",
+    "rating",
+    "rate me"
   ],
   "author": "Kjell Connelly",
   "license": "MIT",
-  "peerDependencies": {
-
-  },
+  "peerDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KjellConnelly/react-native-rate.git"
@@ -21,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/KjellConnelly/react-native-rate/issues"
   },
-  "homepage": "https://github.com/KjellConnelly/react-native-rate#readme"
+  "homepage": "https://github.com/KjellConnelly/react-native-rate#readme",
+  "dependencies": {
+    "react-native-iap": "github:dooboolab/react-native-iap"
+  }
 }
