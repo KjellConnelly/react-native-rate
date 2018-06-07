@@ -11,6 +11,8 @@ export const AndroidMarket = {
 	Other: 3
 }
 
+const noop = () => {};
+
 export default class Rate {
 	static filterOptions(inputOptions) {
 		let options = {
@@ -29,7 +31,7 @@ export default class Rate {
 		return options
 	}
 
-	static rate(inputOptions, callback) {
+	static rate(inputOptions, callback = noop) {
 		let options = Rate.filterOptions(inputOptions)
 		if (Platform.OS == 'ios') {
       options.AppleNativePrefix = AppleNativePrefix
@@ -50,7 +52,7 @@ export default class Rate {
 		}
 	}
 
-	static openURL(url, callback) {
+	static openURL(url, callback = noop) {
 		Linking.canOpenURL(url).then(supported => {
 			callback(supported)
 			if (supported) {
