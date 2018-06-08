@@ -24,6 +24,13 @@ Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 3. In XCode, in the project navigator, select your project. Add `libRNRate.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
+#### Using CocoaPods
+
+Add the following to your `Podfile` (and run `pod install`):
+```
+pod 'RNRate', :path => '../node_modules/react-native-rate/ios'
+```
+
 #### Other Platforms
 Android, Windows, etc don't use any native code. So don't worry! (There still is linking to Android if you do react-native link. We only left this here so that we can call native code if there is native code to call someday.)
 
