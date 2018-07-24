@@ -22,6 +22,7 @@ export default class Rate {
 			OtherAndroidURL:"",
 			preferredAndroidMarket:AndroidMarket.Google,
 			preferInApp:false,
+			openAppStoreIfInAppFails:true,
 			inAppDelay:3.0,
 			fallbackPlatformURL:"",
 		}

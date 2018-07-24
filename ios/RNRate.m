@@ -8,22 +8,23 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
     NSString *AppleNativePrefix = [RCTConvert NSString:options[@"AppleNativePrefix"]];
     BOOL preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
     float inAppDelay = [RCTConvert float:options[@"inAppDelay"]];
-    
-    
+    BOOL openAppStoreIfInAppFails = [RCTConvert BOOL:options[@"openAppStoreIfInAppFails"]];
+
+
     NSString *suffix = @"?action=write-review";
-    
+
     NSString *url = [NSString stringWithFormat:@"%@%@%@", AppleNativePrefix, AppleAppID, suffix];
-    
+
     if (preferInApp) {
         if ([SKStoreReviewController class]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSUInteger windowCount = [[[UIApplication sharedApplication] windows] count];
                 [SKStoreReviewController requestReview];
-                
+
                 float checkTime = 0.1;
                 int iterations = (int)(inAppDelay / checkTime);
-                
-                [self possiblyOpenAppStore:url :windowCount :callback :checkTime :iterations];
+
+                [self possiblyOpenAppStore:url :windowCount :callback :checkTime :iterations :openAppStoreIfInAppFails];
             });
         } else {
             [self openAppStoreAndRate:url];
@@ -35,10 +36,10 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
     }
 }
 
-- (void) possiblyOpenAppStore : (NSString *) url : (NSUInteger) originalWindowCount : (RCTResponseSenderBlock) callback : (float) checkTime : (int) iterations {
+- (void) possiblyOpenAppStore : (NSString *) url : (NSUInteger) originalWindowCount : (RCTResponseSenderBlock) callback : (float) checkTime : (int) iterations : (BOOL) openAppStoreIfInAppFails {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(checkTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         NSUInteger newWindowCount = [[[UIApplication sharedApplication] windows] count];
-        
+
         if (newWindowCount > originalWindowCount) {
             callback(@[[NSNumber numberWithBool:true]]);
         } else if (newWindowCount < originalWindowCount) {
@@ -46,9 +47,11 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
         } else {
             int newInterations = iterations - 1;
             if (newInterations > 0) {
-                [self possiblyOpenAppStore:url :originalWindowCount :callback :checkTime :newInterations];
+                [self possiblyOpenAppStore:url :originalWindowCount :callback :checkTime :newInterations :openAppStoreIfInAppFails];
             } else {
-                [self openAppStoreAndRate:url];
+                if (openAppStoreIfInAppFails) {
+                  [self openAppStoreAndRate:url];
+                }
                 callback(@[[NSNumber numberWithBool:true]]);
             }
         }
@@ -56,7 +59,9 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
 }
 
 - (void) openAppStoreAndRate : (NSString *) url {
+  dispatch_async(dispatch_get_main_queue(), ^{
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
+  });
 }
 
 

@@ -4,7 +4,7 @@ React Native Rate is a cross platform solution to getting users to easily rate y
 
 ##### Stores Supported:
 Apple App Store | Google Play | Amazon | Other Android Markets | All Others
---- | --- | --- | --- | --- 
+--- | --- | --- | --- | ---
 **✓** | **✓** | **✓** | **✓** Building your app for a different Android store, you can provide your own URL | **✓** If your platform isn't one of the others, you can input a fallback url to send users to instead
 
 
@@ -42,6 +42,7 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 - If you do want this ReviewController to show up, we wrote a little hack to see if it worked, and if it doesn't, we just open the App Store (using the optional for all devices pre-iOS10.3). Hopefully this hack continues to work, and hopefully Apple updates the API so we don't have to use this hack.
 - If you set `options.preferInApp = true`, the popup will happen on appropriate devices the first time you call it after the app is open. The hack used checks the number of windows the application has. For some reason, when the inapp window is dismissed, it is still on the stack. So if you try it again, the popup will appear (if it is 3 or less times you've done it this year), but after a short delay, the App Store will open too.
 - Due to all these issues, we recommend only setting preferInApp to true when you are absolutely sure you want a one time, rare chance to ask users to rate your app from within the app. Do not use it to spam them between levels. Do not have a button for rating/reviewing the app, and call this method. And if you want to have a really professional app, save the number of attempts to the device, along with a date. Otherwise you will get some strange behavior.
+- If you want to open via the `SKStoreReviewController`, but don't want the App Store App to open after the timeout, you can set `openAppStoreIfInAppFails:false` in options. By default, it will open after the timeout.
 
 ## Example
 ```javascript
@@ -66,6 +67,7 @@ export default class ExamplePage extends React.Component {
                         OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
                         preferredAndroidMarket: AndroidMarket.Google,
                         preferInApp:false,
+                        openAppStoreIfInAppFails:true,
                         fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
                     }
                     Rate.rate(options, (success)=>{
@@ -82,7 +84,7 @@ export default class ExamplePage extends React.Component {
 ```
 
 #### options:
-There are lots of options. You can ignore some of them if you don't plan to have them on that App Store. 
+There are lots of options. You can ignore some of them if you don't plan to have them on that App Store.
 
 | AppleAppID | GooglePackageName | AmazonPackageName | preferredAndroidMarket | preferInApp | fallbackPlatformURL | inAppDelay |
 | -- | --- | -- | --- | -- | --- | --- |
@@ -144,11 +146,22 @@ let options = {
 }
 ````
 
+##### Options Example6
+```javascript
+// Tries to open the SKStoreReviewController in app for iOS only, but if it fails, nothing happens instead of opening the App Store app after 5.0s.
+let options = {
+  AppleAppID:"2193813192",
+  preferInApp:true,
+  inAppDelay:5.0,
+  openAppStoreIfInAppFails:false,
+}
+```
+
 #### About Package Names (Google Play & Android) and Bundle Identifiers (Apple):
-If you want to keep the same package name and bundle identifier everwhere, we suggest the following: 
+If you want to keep the same package name and bundle identifier everwhere, we suggest the following:
 - All lowercase letters
 - No numbers
-- Use reverse domain style: com.website.appname 
+- Use reverse domain style: com.website.appname
 
 #### Future Plans
 I plan to add default support for Windows, but haven't personally built any windows app for a few years now. So will do it when it's actually relevant.
