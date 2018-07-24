@@ -26,7 +26,5 @@
     "url": "https://github.com/KjellConnelly/react-native-rate/issues"
   },
   "homepage": "https://github.com/KjellConnelly/react-native-rate#readme",
-  "dependencies": {
-    "react-native-iap": "github:dooboolab/react-native-iap"
-  }
+  "dependencies": {}
 }
