@@ -51,8 +51,10 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
             } else {
                 if (openAppStoreIfInAppFails) {
                   [self openAppStoreAndRate:url];
+                  callback(@[[NSNumber numberWithBool:true]]);
+                } else {
+                  callback(@[[NSNumber numberWithBool:false]]);
                 }
-                callback(@[[NSNumber numberWithBool:true]]);
             }
         }
     });
