@@ -2,6 +2,7 @@
   "extends": "airbnb",
   "rules": {
     "no-unused-vars": 0,
+    "semi": ["error", "never", { "beforeStatementContinuationChars": "never"}],
     "import/no-unresolved": [
       2,
       {
