@@ -101,7 +101,7 @@ let options = {
 
 ##### Options Example2
 ```javascript
-// Android only, able to target both Google Play & Android stores. You have to write custom build code to find out if the build was for the Amazon App Store, or Google Play
+// Android only, able to target both Google Play & Amazon stores. You have to write custom build code to find out if the build was for the Amazon App Store, or Google Play
 import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
 let options = {
     GooglePackageName:"com.mywebsite.myapp",
