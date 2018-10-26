@@ -37,7 +37,7 @@ Android, Windows, etc don't use any native code. So don't worry! (There still is
 #### iOS Specific:
 
 Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a Rating Alert right from within their app. There are a few gotchas to using this ReviewController though:
-- Users can only rate the app 1-5 stars. They cannot write a review.
+- Users are first presented with a pop up allowing them to choose 1-5 stars. If they give a numerical rating, the pop up will allow them to then write a review. They can cancel at any time, leaving you with either nothing, a rating, or a rating and review.
 - To prevent annoying popups, Apple decides whether or not you can display it, and they do not offer a callback to let you know if it was displayed or not. It is limited to being shown 3-4 times per year.
 - If you do want this ReviewController to show up, we wrote a little hack to see if it worked, and if it doesn't, we just open the App Store (using the optional for all devices pre-iOS10.3). Hopefully this hack continues to work, and hopefully Apple updates the API so we don't have to use this hack.
 - If you set `options.preferInApp = true`, the popup will happen on appropriate devices the first time you call it after the app is open. The hack used checks the number of windows the application has. For some reason, when the inapp window is dismissed, it is still on the stack. So if you try it again, the popup will appear (if it is 3 or less times you've done it this year), but after a short delay, the App Store will open too.
@@ -70,7 +70,7 @@ export default class ExamplePage extends React.Component {
                         openAppStoreIfInAppFails:true,
                         fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
                     }
-                    Rate.rate(options, (success)=>{
+                    Rate.rate(options, success=>{
                         if (success) {
                             // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
                             this.setState({rated:true})
@@ -148,7 +148,7 @@ let options = {
 
 ##### Options Example6
 ```javascript
-// Tries to open the SKStoreReviewController in app for iOS only, but if it fails, nothing happens instead of opening the App Store app after 5.0s.
+// Tries to open the SKStoreReviewController in app for iOS only, but if it fails, nothing happens instead of opening the App Store app after 5.0s. Technically, you do not need to add inAppDelay in options below because it has a default value. I am only writing it below to show the difference between openAppStoreIfInAppFails true/false values and what would happen after the inAppDelay.
 let options = {
   AppleAppID:"2193813192",
   preferInApp:true,
@@ -162,6 +162,39 @@ If you want to keep the same package name and bundle identifier everwhere, we su
 - All lowercase letters
 - No numbers
 - Use reverse domain style: com.website.appname
+
+#### I’m new to mobile development. Why is rating important?
+Though this isn’t specific to this module, some new developers are not quite sure why rating is important.
+
+First off, rating and reviews are technically two different things. Rating being typically a 1-5 star rating, and a review being text that a user writes. Both are important for different reasons.
+
+A higher rating increases your app’s chance of being shown in search results. Some even think that ANY rating will increase your app’s chance, though I don’t know the algorithm. Some users
+also look at stars and weigh their decision to download or not partially on this metric.
+
+Likewise, reviews give both developers and users good feedback on how the app is doing. Developers can use these reviews as quotes in their app description, and in some stores even reply to reviews (iOS allows this currently, but I’m not sure about other stores).
+
+Getting good reviews and good ratings will increase your app’s popularity and downloads. Of course, getting a user to rate your app is mainly about maximizing your probability of success, vs annoying them. There are a lot of articles online on how best to get users to rate your app, but we won’t go into them here.
+
+Your job as the developer, using this module, is to create an experience for the user, and at the right time, ask them to rate. This can be in the form of a pop up, a perpetual button on a settings menu, or after being a level in a game. It’s up to you.
+
+#### What this module does when you call rate()
+
+For those that don’t want to read through the code, this module will open a link to the App Store of your choosing based on your options and user’s device. The App Store will be on your app’s page. If possible, it will be on the Ratings/Reviews section.
+
+If possible, the App Store will be opened in the native app for the Store (ie the App Store app). If not possible, it will be opened from the user’s browser.
+
+The only time when the above is not true is for iOS when you setup your options to use the ```SKStoreReviewController```. In this case, a native UI pop up (created by Apple) is displayed from within you app.
+
+#### Rate.rate() success?
+
+Success in most cases is self explanatory. But for the iOS ```SKStoreReviewController``` case:
+--- | success | !success
+--- | --- | ---
+```{preferInApp:true}``` and the SKStoreReviewController successfully opens | **✓** | ---
+```{preferInApp:true, openAppStoreIfInAppFails:true}``` and the SKStoreReviewController fails to open, but opens the App Store App | **✓** | ---
+```{preferInApp:true, openAppStoreIfInAppFails:false}``` and the SKStoreReviewController fails to open, and does not open the App Store App | --- | **✓**
+
+
 
 #### Future Plans
 I plan to add default support for Windows, but haven't personally built any windows app for a few years now. So will do it when it's actually relevant.
