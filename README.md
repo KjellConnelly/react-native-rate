@@ -188,6 +188,7 @@ The only time when the above is not true is for iOS when you setup your options 
 #### Rate.rate() success?
 
 Success in most cases is self explanatory. But for the iOS ```SKStoreReviewController``` case:
+
 --- | success | !success
 --- | --- | ---
 ```{preferInApp:true}``` and the SKStoreReviewController successfully opens | **✓** | ---
