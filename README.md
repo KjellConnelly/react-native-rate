@@ -171,7 +171,7 @@ First off, rating and reviews are technically two different things. Rating being
 A higher rating increases your app’s chance of being shown in search results. Some even think that ANY rating will increase your app’s chance, though I don’t know the algorithm. Some users
 also look at stars and weigh their decision to download or not partially on this metric.
 
-Likewise, reviews give both developers and users good feedback on how the app is doing. Developers can use these reviews as quotes in their app description, and in some stores even reply to reviews (iOS allows this currently, but I’m not sure about other stores).
+Likewise, reviews give both developers and users good feedback on how the app is doing. Developers can use these reviews as quotes in their app description, and in some stores even reply to reviews (iOS, Google Play, Amazon, and possibly others).
 
 Getting good reviews and good ratings will increase your app’s popularity and downloads. Of course, getting a user to rate your app is mainly about maximizing your probability of success, vs annoying them. There are a lot of articles online on how best to get users to rate your app, but we won’t go into them here.
 
