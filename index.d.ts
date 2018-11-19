@@ -9,7 +9,6 @@ declare module 'react-native-rate' {
 		openAppStoreIfInAppFails?: boolean,
 		inAppDelay?: number,
 		fallbackPlatformURL?: string,
-		openAppStoreIfInAppFails?: boolean,
 	}
 
 	export enum AndroidMarket {
