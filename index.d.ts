@@ -17,5 +17,5 @@ declare module 'react-native-rate' {
 		Other,
 	}
 
-	export function rate(config: IConfig, callback: (success: boolean) => void): void;
+	export function rate(config: IConfig, callback?: (success: boolean) => void): void;
 }
