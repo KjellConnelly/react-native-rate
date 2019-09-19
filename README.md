@@ -29,7 +29,7 @@ Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 
 Add the following to your `Podfile` (and run `pod install`):
 ```
-pod 'RNRate', :path => '../node_modules/react-native-rate/ios'
+pod 'RNRate', :path => '../node_modules/react-native-rate'
 ```
 
 #### Other Platforms
