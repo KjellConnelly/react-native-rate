@@ -77,7 +77,7 @@ export default class ExamplePage extends React.Component {
                             this.setState({rated:true})
                         }
                     })
-                } />
+                }} />
             </View>
         )
     }
