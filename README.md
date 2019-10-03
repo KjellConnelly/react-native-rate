@@ -19,16 +19,17 @@ Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 ### Manual installation
 #### iOS
 
+##### Without CocoaPods
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-rate` and add `RNRate.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNRate.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
-#### Using CocoaPods
+##### Using CocoaPods
 
 Add the following to your `Podfile` (and run `pod install`):
 ```
-pod 'RNRate', :path => '../node_modules/react-native-rate/ios'
+pod 'RNRate', :path => '../node_modules/react-native-rate'
 ```
 
 #### Other Platforms
@@ -76,7 +77,7 @@ export default class ExamplePage extends React.Component {
                             this.setState({rated:true})
                         }
                     })
-                } />
+                }} />
             </View>
         )
     }
