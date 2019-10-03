@@ -47,40 +47,42 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 
 ## Example
 ```javascript
+import React from 'react'
+import { View, Button } from 'react-native'
 import Rate, { AndroidMarket } from 'react-native-rate'
 
 export default class ExamplePage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            rated: false
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      rated: false
     }
+  }
 
-    render() {
-        return (
-            <View>
-                <Button title="Rate App" onPress={()=>{
-                    let options = {
-                        AppleAppID:"2193813192",
-                        GooglePackageName:"com.mywebsite.myapp",
-                        AmazonPackageName:"com.mywebsite.myapp",
-                        OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
-                        preferredAndroidMarket: AndroidMarket.Google,
-                        preferInApp:false,
-                        openAppStoreIfInAppFails:true,
-                        fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
-                    }
-                    Rate.rate(options, success=>{
-                        if (success) {
-                            // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
-                            this.setState({rated:true})
-                        }
-                    })
-                }} />
-            </View>
-        )
-    }
+  render() {
+    return (
+      <View>
+        <Button title="Rate App" onPress={()=>{
+          const options = {
+            AppleAppID:"2193813192",
+            GooglePackageName:"com.mywebsite.myapp",
+            AmazonPackageName:"com.mywebsite.myapp",
+            OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp:false,
+            openAppStoreIfInAppFails:true,
+            fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
+          }
+          Rate.rate(options, success=>{
+            if (success) {
+              // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+              this.setState({rated:true})
+            }
+          })
+        }} />
+      </View>
+    )
+  }
 }
 ```
 
@@ -95,62 +97,62 @@ There are lots of options. You can ignore some of them if you don't plan to have
 ##### Options Example1
 ```javascript
 // iOS only, not using in-app rating (this is the default)
-let options = {
-    AppleAppID:"2193813192",
+const options = {
+  AppleAppID:"2193813192",
 }
-````
+```
 
 ##### Options Example2
 ```javascript
 // Android only, able to target both Google Play & Amazon stores. You have to write custom build code to find out if the build was for the Amazon App Store, or Google Play
 import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
-let options = {
-    GooglePackageName:"com.mywebsite.myapp",
-    AmazonPackageName:"com.mywebsite.myapp",
-    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
+const options = {
+  GooglePackageName:"com.mywebsite.myapp",
+  AmazonPackageName:"com.mywebsite.myapp",
+  preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
 }
 ```
 
 ##### Options Example3
 ```javascript
 // targets only iOS app store and Amazon App Store (not google play or anything else). Also, on iOS, tries to open SKStoreReviewController.
-let options = {
-    AppleAppID:"2193813192",
-    AmazonPackageName:"com.mywebsite.myapp",
-    preferredAndroidMarket:AndroidMarket.Amazon,
-    preferInApp:true,
+const options = {
+  AppleAppID:"2193813192",
+  AmazonPackageName:"com.mywebsite.myapp",
+  preferredAndroidMarket:AndroidMarket.Amazon,
+  preferInApp:true,
 }
-````
+```
 
 ##### Options Example4
 ```javascript
 // targets iOS, Google Play, and Amazon. Also targets Windows, so has a specific URL if Platform isn't ios or android. Like example 2, custom build tools are used to check if built for Google Play or Amazon. Prefers not using InApp rating for iOS.
 import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
-let options = {
-    AppleAppID:"2193813192",
-    GooglePackageName:"com.mywebsite.myapp",
-    AmazonPackageName:"com.mywebsite.myapp",
-    preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
-    fallbackPlatformURL:"ms-windows-store:review?PFN:com.mywebsite.myapp",
+const options = {
+  AppleAppID:"2193813192",
+  GooglePackageName:"com.mywebsite.myapp",
+  AmazonPackageName:"com.mywebsite.myapp",
+  preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
+  fallbackPlatformURL:"ms-windows-store:review?PFN:com.mywebsite.myapp",
 }
-````
+```
 
 ##### Options Example5
 ```javascript
 // targets 4 different android stores: Google Play, Amazon, and 2 fake hypothetical stores: CoolApps and Andrule
 import {androidPlatform} from './buildConstants/androidPlatform' // this is a hypothetical constant created at build time
-let options = {
-    GooglePackageName:"com.mywebsite.myapp",
-    AmazonPackageName:"com.mywebsite.myapp",
-    preferredAndroidMarket: (androidPlatform == 'google') ? AndroidMarket.Google : (androidPlatform == 'amazon' ? AndroidMarket.Amazon : AndroidMarket.Other),
-    OtherAndroidURL:(androidPlatform == 'CoolApps') ? "http://www.coolapps.net/apps/31242342" : "http://www.andrule.com/apps/dev/21312"
+const options = {
+  GooglePackageName:"com.mywebsite.myapp",
+  AmazonPackageName:"com.mywebsite.myapp",
+  preferredAndroidMarket: (androidPlatform == 'google') ? AndroidMarket.Google : (androidPlatform == 'amazon' ? AndroidMarket.Amazon : AndroidMarket.Other),
+  OtherAndroidURL:(androidPlatform == 'CoolApps') ? "http://www.coolapps.net/apps/31242342" : "http://www.andrule.com/apps/dev/21312"
 }
-````
+```
 
 ##### Options Example6
 ```javascript
 // Tries to open the SKStoreReviewController in app for iOS only, but if it fails, nothing happens instead of opening the App Store app after 5.0s. Technically, you do not need to add inAppDelay in options below because it has a default value. I am only writing it below to show the difference between openAppStoreIfInAppFails true/false values and what would happen after the inAppDelay.
-let options = {
+const options = {
   AppleAppID:"2193813192",
   preferInApp:true,
   inAppDelay:5.0,
@@ -184,17 +186,17 @@ For those that don’t want to read through the code, this module will open a li
 
 If possible, the App Store will be opened in the native app for the Store (ie the App Store app). If not possible, it will be opened from the user’s browser.
 
-The only time when the above is not true is for iOS when you setup your options to use the ```SKStoreReviewController```. In this case, a native UI pop up (created by Apple) is displayed from within you app.
+The only time when the above is not true is for iOS when you setup your options to use the `SKStoreReviewController`. In this case, a native UI pop up (created by Apple) is displayed from within you app.
 
 #### Rate.rate() success?
 
-Success in most cases is self explanatory. But for the iOS ```SKStoreReviewController``` case:
+Success in most cases is self explanatory. But for the iOS `SKStoreReviewController` case:
 
 --- | success | !success
 --- | --- | ---
-```{preferInApp:true}``` and the SKStoreReviewController successfully opens | **✓** | ---
-```{preferInApp:true, openAppStoreIfInAppFails:true}``` and the SKStoreReviewController fails to open, but opens the App Store App | **✓** | ---
-```{preferInApp:true, openAppStoreIfInAppFails:false}``` and the SKStoreReviewController fails to open, and does not open the App Store App | --- | **✓**
+`{preferInApp:true}` and the SKStoreReviewController successfully opens | **✓** | ---
+`{preferInApp:true, openAppStoreIfInAppFails:true}` and the SKStoreReviewController fails to open, but opens the App Store App | **✓** | ---
+`{preferInApp:true, openAppStoreIfInAppFails:false}` and the SKStoreReviewController fails to open, and does not open the App Store App | --- | **✓**
 
 
 
