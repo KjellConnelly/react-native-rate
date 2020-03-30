@@ -12,7 +12,10 @@ Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 
 `$ npm install react-native-rate --save`
 
-### Mostly automatic installation
+### Mostly automatic installation (new way with react-native v0.60+)
+`cd ios && pod install && cd ../`
+
+### Mostly automatic installation (old way)
 
 `$ react-native link react-native-rate`
 
@@ -198,7 +201,8 @@ Success in most cases is self explanatory. But for the iOS `SKStoreReviewControl
 `{preferInApp:true, openAppStoreIfInAppFails:true}` and the SKStoreReviewController fails to open, but opens the App Store App | **✓** | ---
 `{preferInApp:true, openAppStoreIfInAppFails:false}` and the SKStoreReviewController fails to open, and does not open the App Store App | --- | **✓**
 
-
+#### This used to work, now I'm getting an error message with react-native-rate v1.2.0
+I moved the podspec file outside of the `ios` directory. If you use pods before this version, you may have set paths to `ios/RNRate.podspec`. You may need to change that back.
 
 #### Future Plans
 I plan to add default support for Windows, but haven't personally built any windows app for a few years now. So will do it when it's actually relevant.
