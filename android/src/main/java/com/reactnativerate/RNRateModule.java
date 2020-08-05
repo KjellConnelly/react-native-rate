@@ -1,5 +1,6 @@
 package com.reactnativerate;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -11,6 +12,8 @@ import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
+
+import java.util.Map;
 
 public class RNRateModule extends ReactContextBaseJavaModule {
 
@@ -27,20 +30,31 @@ public class RNRateModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void rate(String stringArgument, int numberArgument, Callback callback) {
-        ReviewManager manager = ReviewManagerFactory.create(this.reactContext);
+    public void rate(Map options, final Callback callback) {
+        final ReviewManager manager = ReviewManagerFactory.create(this.reactContext);
         Task<ReviewInfo> request = manager.requestReviewFlow();
         request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
             @Override
-            public void onComplete(@NonNull Task<ReviewInfo> task) {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
+            public void onComplete(@NonNull final Task<ReviewInfo> requestTask) {
+                if (requestTask.isSuccessful()) {
+                    ReviewInfo reviewInfo = requestTask.getResult();
+                    Activity activity = getCurrentActivity();
+                    if (activity == null) return;
+                    Task<Void> flow = manager.launchReviewFlow(activity, reviewInfo);
+                    flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> flowTask) {
+                            if (requestTask.isSuccessful()) {
+                                callback.invoke(true);
+                            } else {
+                                callback.invoke(false);
+                            }
+                        }
+                    });
                 } else {
-                    // TODO error?
+                    callback.invoke(false);
                 }
             }
         });
-        callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
     }
 }
