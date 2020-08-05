@@ -42,7 +42,9 @@ export default class Rate {
       })
     } else if (Platform.OS === 'android') {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
-        Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
+        RNRate.rate(options, (response) => {
+          callback(response) // error?
+        })
       } else if (options.preferredAndroidMarket === AndroidMarket.Amazon) {
         Rate.openURL(AmazonPrefix + options.AmazonPackageName, callback)
       } else if (options.preferredAndroidMarket === AndroidMarket.Other) {
