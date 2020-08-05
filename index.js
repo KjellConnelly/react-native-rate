@@ -33,10 +33,10 @@ export default class Rate {
   }
 
   static rate(inputOptions, callback = noop) {
+    const { RNRate } = NativeModules
     const options = Rate.filterOptions(inputOptions)
     if (Platform.OS === 'ios') {
       options.AppleNativePrefix = AppleNativePrefix
-      const { RNRate } = NativeModules
       RNRate.rate(options, (response) => {
         callback(response) // error?
       })
