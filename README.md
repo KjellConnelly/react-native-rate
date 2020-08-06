@@ -48,6 +48,12 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 - Due to all these issues, we recommend only setting preferInApp to true when you are absolutely sure you want a one time, rare chance to ask users to rate your app from within the app. Do not use it to spam them between levels. Do not have a button for rating/reviewing the app, and call this method. And if you want to have a really professional app, save the number of attempts to the device, along with a date. Otherwise you will get some strange behavior.
 - If you want to open via the `SKStoreReviewController`, but don't want the App Store App to open after the timeout, you can set `openAppStoreIfInAppFails:false` in options. By default, it will open after the timeout.
 
+#### Android Specific:
+
+- If you set `preferredAndroidMarket = AndroidMarket.Google` and `options.preferInApp = true`, it will open the native UI in the app (see [Official docs](https://developer.android.com/guide/playcore/in-app-review)).
+- Your app needs to be published at least once to the Play Store for it to show (see [How to test](https://developer.android.com/guide/playcore/in-app-review/test)).
+- It seems that it only shows on a real device, not on a simulator.
+
 ## Example
 ```javascript
 import React from 'react'
@@ -98,9 +104,10 @@ There are lots of options. You can ignore some of them if you don't plan to have
 | GooglePackageName | Created when you create an app on Google Play Developer Console. |
 | AmazonPackageName | Create when you create an app on the Amazon Developer Console. |
 | preferredAndroidMarket | This only matters if you plan to deploy to both Google Play and Amazon or other markets. Since there is no reliable way to check at run time where the app was downloaded from, we suggest creating your own build logic to decipher if the app was built for Google Play or Amazon, or Other markets. Available Options: AndroidMarket.Google, AndroidMarket.Amazon, Other |
-| preferInApp | If true and user is on iOS, tries to use `SKStoreReviewController`. If fails for whatever reason, or user is on another platform, opens the App Store externally. |
+| preferInApp | If true and user is on iOS, tries to use `SKStoreReviewController`. If true and user is on Android, it will try to use the native UI. If fails for whatever reason, or user is on another platform, opens the App Store externally. Default `false`|
 | fallbackPlatformURL | `if ((Platform.OS != 'ios) && (Platform.OS != 'android'))`, open this URL. |
 | inAppDelay | (IOS ONLY) Delay to wait for the InApp review dialog to show (if preferInApp == true). After delay, opens the App Store if the InApp review doesn't show. Default 3.0 |
+| openAppStoreIfInAppFails | If `preferInApp = true` but the native iOS and Android UI failed, opens the store externally. Default `true` |
 
 
 ##### Options Example1
