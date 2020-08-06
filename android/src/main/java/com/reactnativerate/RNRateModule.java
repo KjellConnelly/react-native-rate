@@ -1,11 +1,12 @@
 package com.reactnativerate;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -13,7 +14,7 @@ import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
 
-import java.util.Map;
+
 
 public class RNRateModule extends ReactContextBaseJavaModule {
 
@@ -30,7 +31,7 @@ public class RNRateModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void rate(Map options, final Callback callback) {
+    public void rate(ReadableMap options, final Callback callback) {
         final ReviewManager manager = ReviewManagerFactory.create(this.reactContext);
         Task<ReviewInfo> request = manager.requestReviewFlow();
         request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
