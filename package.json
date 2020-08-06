@@ -1,6 +1,6 @@
 {
   "name": "react-native-rate",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "React Native Rate is a cross platform solution to getting users to easily rate your app.",
   "main": "index",
   "scripts": {

@@ -149,7 +149,7 @@ const options = {
   AppleAppID:"2193813192",
   GooglePackageName:"com.mywebsite.myapp",
   AmazonPackageName:"com.mywebsite.myapp",
-  preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon
+  preferredAndroidMarket: androidPlatform == 'google' ? AndroidMarket.Google : AndroidMarket.Amazon,
   fallbackPlatformURL:"ms-windows-store:review?PFN:com.mywebsite.myapp",
 }
 ```
