@@ -40,7 +40,7 @@ Android, Windows, etc don't use any native code. So don't worry! (There still is
 
 #### iOS Specific:
 
-Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a Rating Alert right from within their app. There are a few gotchas to using this ReviewController though:
+Users using iOS 10.3 (from 2017) and above can now use `SKStoreReviewController` to open a Rating Alert right from within their app. There are a few gotchas to using this ReviewController though:
 - Users are first presented with a pop up allowing them to choose 1-5 stars. If they give a numerical rating, the pop up will allow them to then write a review. They can cancel at any time, leaving you with either nothing, a rating, or a rating and review.
 - To prevent annoying popups, Apple decides whether or not you can display it, and they do not offer a callback to let you know if it was displayed or not. It is limited to being shown 3-4 times per year.
 - If you do want this ReviewController to show up, we wrote a little hack to see if it worked, and if it doesn't, we just open the App Store (using the optional for all devices pre-iOS10.3). Hopefully this hack continues to work, and hopefully Apple updates the API so we don't have to use this hack.
@@ -48,8 +48,9 @@ Users using iOS 10.3 and above can now use `SKStoreReviewController` to open a R
 - Due to all these issues, we recommend only setting preferInApp to true when you are absolutely sure you want a one time, rare chance to ask users to rate your app from within the app. Do not use it to spam them between levels. Do not have a button for rating/reviewing the app, and call this method. And if you want to have a really professional app, save the number of attempts to the device, along with a date. Otherwise you will get some strange behavior.
 - If you want to open via the `SKStoreReviewController`, but don't want the App Store App to open after the timeout, you can set `openAppStoreIfInAppFails:false` in options. By default, it will open after the timeout.
 
-#### Android Specific:
+#### Android Specific for in-app popups:
 
+- Similar to iOS since 2017, Android FINALLY supports an in-app dialogue that allows users to rate/review your app. As of August 2020, this is our first release using Android's PlayCore in-app-review popup, so there may be some hiccups. Note that this only works for the Android Google Play store (and Chrome OS devices that have the Google Play Store installed). No Amazon marketplace, sorry :( Also requires Android 5.0 and above, which I think has been required for newer versions of React Native for at least the least year or two. So if you've updated your `react-native` library since probably 2018, you should be good to use this.
 - If you set `preferredAndroidMarket = AndroidMarket.Google` and `options.preferInApp = true`, it will open the native UI in the app (see [Official docs](https://developer.android.com/guide/playcore/in-app-review)).
 - Your app needs to be published at least once to the Play Store for it to show (see [How to test](https://developer.android.com/guide/playcore/in-app-review/test)).
 - It seems that it only shows on a real device, not on a simulator.
