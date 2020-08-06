@@ -42,9 +42,17 @@ export default class Rate {
       })
     } else if (Platform.OS === 'android') {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
-        RNRate.rate(options, (response) => {
-          callback(response) // error?
-        })
+        if (options.preferInApp) {
+          RNRate.rate(options, (response) => {
+            if (!response && options.openAppStoreIfInAppFails) {
+              Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
+            } else {
+              callback(response)
+            }
+          })
+        } else {
+          Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
+        }
       } else if (options.preferredAndroidMarket === AndroidMarket.Amazon) {
         Rate.openURL(AmazonPrefix + options.AmazonPackageName, callback)
       } else if (options.preferredAndroidMarket === AndroidMarket.Other) {
