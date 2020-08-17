@@ -57,9 +57,9 @@ Users using iOS 10.3 (from 2017) and above can now use `SKStoreReviewController`
 
 ## Example
 ```javascript
-import React from 'react'
-import { View, Button } from 'react-native'
-import Rate, { AndroidMarket } from 'react-native-rate'
+import React from "react"
+import { View, Button } from "react-native"
+import Rate, { AndroidMarket } from "react-native-rate"
 
 export default class ExamplePage extends React.Component {
   constructor(props) {
@@ -72,24 +72,27 @@ export default class ExamplePage extends React.Component {
   render() {
     return (
       <View>
-        <Button title="Rate App" onPress={()=>{
-          const options = {
-            AppleAppID:"2193813192",
-            GooglePackageName:"com.mywebsite.myapp",
-            AmazonPackageName:"com.mywebsite.myapp",
-            OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
-            preferredAndroidMarket: AndroidMarket.Google,
-            preferInApp:false,
-            openAppStoreIfInAppFails:true,
-            fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
-          }
-          Rate.rate(options, success=>{
-            if (success) {
-              // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
-              this.setState({rated:true})
+        <Button
+          title="Rate App"
+          onPress={() => {
+            const options = {
+              AppleAppID: "2193813192",
+              GooglePackageName: "com.mywebsite.myapp",
+              AmazonPackageName: "com.mywebsite.myapp",
+              OtherAndroidURL: "http://www.randomappstore.com/app/47172391",
+              preferredAndroidMarket: AndroidMarket.Google,
+              preferInApp: false,
+              openAppStoreIfInAppFails: true,
+              fallbackPlatformURL: "http://www.mywebsite.com/myapp.html"
             }
-          })
-        }} />
+            Rate.rate((options, success) => {
+              if (success) {
+                // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+                this.setState({ rated: true })
+              }
+            })
+          }}
+        />
       </View>
     )
   }
