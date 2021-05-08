@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.module.annotations.ReactModule;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
@@ -15,8 +16,9 @@ import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
 
 
-
+@ReactModule(name = RNRateModule.NAME)
 public class RNRateModule extends ReactContextBaseJavaModule {
+    public static final String NAME = "RNRate";
 
     private final ReactApplicationContext reactContext;
 
@@ -27,7 +29,7 @@ public class RNRateModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "RNRate";
+        return NAME;
     }
 
     @ReactMethod
