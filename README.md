@@ -218,5 +218,8 @@ Success in most cases is self explanatory. But for the iOS `SKStoreReviewControl
 #### This used to work, now I'm getting an error message with react-native-rate v1.2.0
 I moved the podspec file outside of the `ios` directory. If you use pods before this version, you may have set paths to `ios/RNRate.podspec`. You may need to change that back.
 
+#### preferInApp works in iOS development, but not via TestFlight!
+True. According to Apple's documentation, the `SKStoreReviewController` should work as expected while in development and production modes, but not one that is distributed via TestFlight.
+
 #### Future Plans
 I plan to add default support for Windows, but haven't personally built any windows app for a few years now. So will do it when it's actually relevant.
