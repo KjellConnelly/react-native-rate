@@ -19,7 +19,32 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
         if ([SKStoreReviewController class]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSUInteger windowCount = [[[UIApplication sharedApplication] windows] count];
-                [SKStoreReviewController requestReview];
+
+                if (@available(iOS 14.0, *)) {
+                    NSSet *scenes = [[UIApplication sharedApplication] connectedScenes];
+                    NSArray *scenesArray = [scenes allObjects];
+
+                    UIWindowScene *activeScene;
+                    for (int i = 0; i < scenes.count; i++) {
+                        UIWindowScene *scene = [scenesArray objectAtIndex:i];
+                        NSInteger activationState = scene.activationState;
+                        if (activationState == UISceneActivationStateForegroundActive) {
+                            activeScene = scene;
+                        }
+                    }
+
+                    if (activeScene != nil) {
+                        [SKStoreReviewController requestReviewInScene:activeScene];
+                    } else {
+                        // If you get here, it's because there is no active scene for whatever reason.
+                        // I'm not sure if this is a react-native thing, but I'd assume there is
+                        // always an active scene. I'm not interested in debugging right now,
+                        // so I'm just adding a NSLog for now. Should just open in App Store.
+                        NSLog(@"No active scenes found. Cannot requestReviewInScene.");
+                    }
+                } else {
+                    [SKStoreReviewController requestReview];
+                }
 
                 float checkTime = 0.1;
                 int iterations = (int)(inAppDelay / checkTime);

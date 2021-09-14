@@ -38,7 +38,7 @@ export default class Rate {
     if (Platform.OS === 'ios') {
       options.AppleNativePrefix = AppleNativePrefix
       RNRate.rate(options, (response, error) => {
-        callback(response, error) // error?
+        callback(response, error)
       })
     } else if (Platform.OS === 'android') {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
