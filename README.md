@@ -83,10 +83,14 @@ export default class ExamplePage extends React.Component {
             openAppStoreIfInAppFails:true,
             fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
           }
-          Rate.rate(options, success=>{
+          Rate.rate(options, (success, errorMessage)=>{
             if (success) {
               // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
               this.setState({rated:true})
+            }
+            if (errorMessage) {
+              // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
+              console.error(`Example page Rate.rate() error: ${errorMessage}`)
             }
           })
         }} />
@@ -178,7 +182,7 @@ const options = {
 ```
 
 #### About Package Names (Google Play & Android) and Bundle Identifiers (Apple):
-If you want to keep the same package name and bundle identifier everwhere, we suggest the following:
+If you want to keep the same package name and bundle identifier everywhere, we suggest the following:
 - All lowercase letters
 - No numbers
 - Use reverse domain style: com.website.appname
@@ -197,7 +201,7 @@ Getting good reviews and good ratings will increase your app’s popularity and 
 
 Your job as the developer, using this module, is to create an experience for the user, and at the right time, ask them to rate. This can be in the form of a pop up, a perpetual button on a settings menu, or after being a level in a game. It’s up to you.
 
-#### What this module does when you call rate()
+#### What does this module do when you call rate()
 
 For those that don’t want to read through the code, this module will open a link to the App Store of your choosing based on your options and user’s device. The App Store will be on your app’s page. If possible, it will be on the Ratings/Reviews section.
 
