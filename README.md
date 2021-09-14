@@ -83,10 +83,14 @@ export default class ExamplePage extends React.Component {
             openAppStoreIfInAppFails:true,
             fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
           }
-          Rate.rate(options, success=>{
+          Rate.rate(options, (success, errorMessage)=>{
             if (success) {
               // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
               this.setState({rated:true})
+            }
+            if (errorMessage) {
+              // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
+              console.error(`Example page Rate.rate() error: ${errorMessage}`)
             }
           })
         }} />
@@ -178,7 +182,7 @@ const options = {
 ```
 
 #### About Package Names (Google Play & Android) and Bundle Identifiers (Apple):
-If you want to keep the same package name and bundle identifier everwhere, we suggest the following:
+If you want to keep the same package name and bundle identifier everywhere, we suggest the following:
 - All lowercase letters
 - No numbers
 - Use reverse domain style: com.website.appname
@@ -197,7 +201,7 @@ Getting good reviews and good ratings will increase your app’s popularity and 
 
 Your job as the developer, using this module, is to create an experience for the user, and at the right time, ask them to rate. This can be in the form of a pop up, a perpetual button on a settings menu, or after being a level in a game. It’s up to you.
 
-#### What this module does when you call rate()
+#### What does this module do when you call rate()
 
 For those that don’t want to read through the code, this module will open a link to the App Store of your choosing based on your options and user’s device. The App Store will be on your app’s page. If possible, it will be on the Ratings/Reviews section.
 
@@ -217,6 +221,9 @@ Success in most cases is self explanatory. But for the iOS `SKStoreReviewControl
 
 #### This used to work, now I'm getting an error message with react-native-rate v1.2.0
 I moved the podspec file outside of the `ios` directory. If you use pods before this version, you may have set paths to `ios/RNRate.podspec`. You may need to change that back.
+
+#### preferInApp works in iOS development, but not via TestFlight!
+True. According to Apple's documentation, the `SKStoreReviewController` should work as expected while in development and production modes, but not one that is distributed via TestFlight.
 
 #### Future Plans
 I plan to add default support for Windows, but haven't personally built any windows app for a few years now. So will do it when it's actually relevant.
