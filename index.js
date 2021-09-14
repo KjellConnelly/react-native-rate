@@ -43,9 +43,13 @@ export default class Rate {
     } else if (Platform.OS === 'android') {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
         if (options.preferInApp) {
-          RNRate.rate(options, (response, error) =>{
-            if (!response && options.openAppStoreIfInAppFails) {
-              Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
+          RNRate.rate(options, (response, error)=>{
+            if (!response) {
+              if (options.openAppStoreIfInAppFails) {
+                Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
+              } else {
+                callback(false, error)
+              }
             } else {
               callback(response, error)
             }
