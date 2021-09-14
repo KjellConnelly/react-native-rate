@@ -40,7 +40,10 @@ public class RNRateModule extends ReactContextBaseJavaModule {
                 if (requestTask.isSuccessful()) {
                     ReviewInfo reviewInfo = requestTask.getResult();
                     Activity activity = getCurrentActivity();
-                    if (activity == null) return;
+                    if (activity == null) {
+                        callback.invoke(false, "getCurrentActivity() unsuccessful");
+                        return;
+                    }
                     Task<Void> flow = manager.launchReviewFlow(activity, reviewInfo);
                     flow.addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -48,12 +51,12 @@ public class RNRateModule extends ReactContextBaseJavaModule {
                             if (requestTask.isSuccessful()) {
                                 callback.invoke(true);
                             } else {
-                                callback.invoke(false);
+                                callback.invoke(false, "launchReviewFlow() unsuccessful");
                             }
                         }
                     });
                 } else {
-                    callback.invoke(false);
+                    callback.invoke(false, "requestReviewFlow() unsuccessful");
                 }
             }
         });
