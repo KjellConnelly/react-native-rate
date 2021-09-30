@@ -2,7 +2,7 @@ import { Platform, Linking, NativeModules } from 'react-native'
 
 const AppleNativePrefix = 'itms-apps://itunes.apple.com/app/id'
 const AppleWebPrefix = 'https://itunes.apple.com/app/id'
-const GooglePrefix = 'http://play.google.com/store/apps/details?id='
+const GooglePrefix = 'https://play.google.com/store/apps/details?id='
 const AmazonPrefix = 'amzn://apps/android?p='
 
 export const AndroidMarket = {
