@@ -1,4 +1,6 @@
 #import "RNRate.h"
+#import "RCTBridgeModule.h"
+#import "React/RCTConvert.h"
 
 @implementation RNRate
 RCT_EXPORT_MODULE();
