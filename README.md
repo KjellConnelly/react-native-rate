@@ -10,7 +10,7 @@ Apple App Store | Google Play | Amazon | Other Android Markets | All Others
 
 ## Getting started
 
-`$ npm install react-native-rate --save`
+`$ npm i react-native-rate`
 
 ### Mostly automatic installation (new way with react-native v0.60+)
 `cd ios && pod install && cd ../`
@@ -54,6 +54,8 @@ Users using iOS 10.3 (from 2017) and above can now use `SKStoreReviewController`
 - If you set `preferredAndroidMarket = AndroidMarket.Google` and `options.preferInApp = true`, it will open the native UI in the app (see [Official docs](https://developer.android.com/guide/playcore/in-app-review)).
 - Your app needs to be published at least once to the Play Store for it to show (see [How to test](https://developer.android.com/guide/playcore/in-app-review/test)).
 - It seems that it only shows on a real device, not on a simulator.
+- Need troubleshooting? Check out the [official documentation on common problems](https://developer.android.com/guide/playcore/in-app-review/test#troubleshooting) here.
+- Want to show the in-app review dialogue even after the user has reviewed your app? Maybe they tapped a button to edit their review? Unfortunately, like Apple, Google doesn't tell us if the user has reviewed or not. So if you try to open the in-app dialogue, your callback will be **SUCCESS**. But actually, nothing will happen. And since it is "successful", the Play Store page won't open either. In order to handle this, I suggest 1 of two solutions. Either create a separate button that ALWAYS opens the play store (never the in-app prompt). Or create some logic to estimate if a user has rated or not. For example, if the user comes back to the app within 10 seconds, they probably didn't rate the app. Or you could just never try the in-app prompt once it has been successful once. Or, if you're a programming genius, and you know the usernames of your users, make a Google Play query and search for their review. If exists, don't try again. Ya, but I bet you won't have access to that info. But that's hopeful dreaming.
 
 ## Example
 ```javascript
