@@ -1,7 +1,7 @@
 import { Platform, Linking, NativeModules } from 'react-native'
 
-const AppleNativePrefix = 'itms-apps://itunes.apple.com/app/id'
-const AppleWebPrefix = 'https://itunes.apple.com/app/id'
+const AppleNativePrefix = 'https://apps.apple.com/app/id'
+const AppleWebPrefix = 'https://apps.apple.com/app/id'
 const GooglePrefix = 'https://play.google.com/store/apps/details?id='
 const AmazonPrefix = 'amzn://apps/android?p='
 
