@@ -15,7 +15,6 @@ RCT_EXPORT_MODULE(RNRate);
 
 #if RCT_NEW_ARCH_ENABLED
 - (void)rate:(JS::NativeRNRate::SpecRateOptions &)options callback:(RCTResponseSenderBlock)callback {
-    NSLog(@"new arch rate called");
     NSString *AppleAppID = options.AppleAppID();
     NSString *AppleNativePrefix = options.AppleNativePrefix();
     BOOL preferInApp = options.preferInApp();
@@ -26,8 +25,6 @@ RCT_EXPORT_MODULE(RNRate);
 }
 #else
 RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callback) {
-    NSLog(@"old arch rate called");
-    
     NSString *AppleAppID = [RCTConvert NSString:options[@"AppleAppID"]];
     NSString *AppleNativePrefix = [RCTConvert NSString:options[@"AppleNativePrefix"]];
     BOOL preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
@@ -39,13 +36,6 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
 #endif
 
 - (void) rateImpl: (NSString *) AppleAppID : (NSString *) AppleNativePrefix : (BOOL) preferInApp : (float) inAppDelay : (BOOL) openAppStoreIfInAppFails : (RCTResponseSenderBlock) callback {
-    NSLog(@"rateImpl ");
-    NSLog(@"AppleAppID %@",AppleAppID);
-    NSLog(@"AppleNativePrefix %@",AppleNativePrefix);
-    NSLog(@"preferInApp %d",preferInApp);
-    NSLog(@"inAppDelay %f",inAppDelay);
-    NSLog(@"openAppStoreIfInAppFails %d",openAppStoreIfInAppFails);
-    
     NSString *suffix = @"?action=write-review";
 
     NSString *url = [NSString stringWithFormat:@"%@%@%@", AppleNativePrefix, AppleAppID, suffix];
