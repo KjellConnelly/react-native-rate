@@ -1,18 +1,51 @@
 #import "RNRate.h"
-#import "RCTBridgeModule.h"
+#import "UIKit/UIKit.h"
+
 #import "React/RCTConvert.h"
+#import "StoreKit/StoreKit.h"
+
+#if RCT_NEW_ARCH_ENABLED
+#import <RNRateSpec/RNRateSpec.h>
+#endif
+
 
 @implementation RNRate
-RCT_EXPORT_MODULE();
 
+RCT_EXPORT_MODULE(RNRate);
+
+#if RCT_NEW_ARCH_ENABLED
+- (void)rate:(JS::NativeRNRate::SpecRateOptions &)options callback:(RCTResponseSenderBlock)callback {
+    NSLog(@"new arch rate called");
+    NSString *AppleAppID = options.AppleAppID();
+    NSString *AppleNativePrefix = options.AppleNativePrefix();
+    BOOL preferInApp = options.preferInApp();
+    float inAppDelay = options.inAppDelay();
+    BOOL openAppStoreIfInAppFails = options.openAppStoreIfInAppFails();
+    
+    [self rateImpl:AppleAppID :AppleNativePrefix :preferInApp :inAppDelay :openAppStoreIfInAppFails :callback];
+}
+#else
 RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callback) {
+    NSLog(@"old arch rate called");
+    
     NSString *AppleAppID = [RCTConvert NSString:options[@"AppleAppID"]];
     NSString *AppleNativePrefix = [RCTConvert NSString:options[@"AppleNativePrefix"]];
     BOOL preferInApp = [RCTConvert BOOL:options[@"preferInApp"]];
     float inAppDelay = [RCTConvert float:options[@"inAppDelay"]];
     BOOL openAppStoreIfInAppFails = [RCTConvert BOOL:options[@"openAppStoreIfInAppFails"]];
 
+    [self rateImpl:AppleAppID :AppleNativePrefix :preferInApp :inAppDelay :openAppStoreIfInAppFails :callback];
+}
+#endif
 
+- (void) rateImpl: (NSString *) AppleAppID : (NSString *) AppleNativePrefix : (BOOL) preferInApp : (float) inAppDelay : (BOOL) openAppStoreIfInAppFails : (RCTResponseSenderBlock) callback {
+    NSLog(@"rateImpl ");
+    NSLog(@"AppleAppID %@",AppleAppID);
+    NSLog(@"AppleNativePrefix %@",AppleNativePrefix);
+    NSLog(@"preferInApp %d",preferInApp);
+    NSLog(@"inAppDelay %f",inAppDelay);
+    NSLog(@"openAppStoreIfInAppFails %d",openAppStoreIfInAppFails);
+    
     NSString *suffix = @"?action=write-review";
 
     NSString *url = [NSString stringWithFormat:@"%@%@%@", AppleNativePrefix, AppleAppID, suffix];
@@ -93,6 +126,13 @@ RCT_EXPORT_METHOD(rate: (NSDictionary *)options : (RCTResponseSenderBlock) callb
   });
 }
 
-
+# pragma mark - New Architecture
+#if RCT_NEW_ARCH_ENABLED
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+    (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+    return std::make_shared<facebook::react::NativeRNRateSpecJSI>(params);
+}
+#endif
 
 @end

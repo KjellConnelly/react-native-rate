@@ -1,23 +1,45 @@
 package com.reactnativerate;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import androidx.annotation.Nullable;
 
-import com.facebook.react.ReactPackage;
+import com.facebook.react.TurboReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
-import com.facebook.react.bridge.JavaScriptModule;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 
-public class RNRatePackage implements ReactPackage {
+import java.util.HashMap;
+import java.util.Map;
+
+public class RNRatePackage extends TurboReactPackage {
+
+    @Nullable
     @Override
-    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new RNRateModule(reactContext));
+    public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+        if (name.equals(RNRateImpl.NAME)) {
+            return new RNRate(reactContext);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+    public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return () -> {
+            final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+            boolean isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+            moduleInfos.put(
+                    RNRateImpl.NAME,
+                    new ReactModuleInfo(
+                            RNRateImpl.NAME,
+                            RNRateImpl.NAME,
+                            false, // canOverrideExistingModule
+                            false, // needsEagerInit
+                            false, // hasConstants
+                            false, // isCxxModule
+                            isTurboModule // isTurboModule
+                    ));
+            return moduleInfos;
+        };
     }
 }

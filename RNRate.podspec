@@ -11,9 +11,12 @@ Pod::Spec.new do |s|
   s.author       = { "author" => package['author']['name'] }
   s.platform     = :ios, "7.0"
   s.source       = { :git => "https://github.com/KjellConnelly/react-native-rate.git", :branch => "master" }
-  s.source_files = "ios/*.{h,m}"
+  s.source_files = "ios/*.{h,m,mm}"
   s.requires_arc = true
 
   s.dependency "React-Core"
+  s.framework    = "StoreKit"
+
+  install_modules_dependencies(s)
 
 end
