@@ -33,14 +33,26 @@ export default class Rate {
   }
 
   static rate(inputOptions, callback = noop) {
-    const { RNRate } = NativeModules
-    const options = Rate.filterOptions(inputOptions)
-    if (Platform.OS === 'ios') {
-      options.AppleNativePrefix = AppleNativePrefix
-      RNRate.rate(options, (response, error) => {
-        callback(response, error)
-      })
-    } else if (Platform.OS === 'android') {
+    const { RNRate } = NativeModules;
+    const options = Rate.filterOptions(inputOptions);
+    if (Platform.OS === "ios") {
+      options.AppleNativePrefix = AppleNativePrefix;
+      if (options.preferInApp) {
+        RNRate.rate(options, (response, error) => {
+          if (!response) {
+            if (options.openAppStoreIfInAppFails) {
+              Rate.openURL(AppleNativePrefix + options.AppleAppID, callback);
+            } else {
+              callback(response, error);
+            }
+          } else {
+            callback(response, error);
+          }
+        });
+      } else {
+        Rate.openURL(AppleNativePrefix + options.AppleAppID, callback);
+      }
+    } else if (Platform.OS === "android") {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
         if (options.preferInApp) {
           RNRate.rate(options, (response, error)=>{
