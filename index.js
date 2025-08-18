@@ -1,9 +1,10 @@
-import { Platform, Linking, NativeModules } from 'react-native'
+import { Platform, Linking } from 'react-native';
+import NativeRNRate from "./NativeRNRate";
 
-const AppleNativePrefix = 'itms-apps://itunes.apple.com/app/id'
-const AppleWebPrefix = 'https://itunes.apple.com/app/id'
-const GooglePrefix = 'https://play.google.com/store/apps/details?id='
-const AmazonPrefix = 'amzn://apps/android?p='
+const AppleNativePrefix = 'itms-apps://itunes.apple.com/app/id';
+const AppleWebPrefix = 'https://itunes.apple.com/app/id';
+const GooglePrefix = 'https://play.google.com/store/apps/details?id=';
+const AmazonPrefix = 'amzn://apps/android?p=';
 
 export const AndroidMarket = {
   Google: 1,
@@ -33,17 +34,16 @@ export default class Rate {
   }
 
   static rate(inputOptions, callback = noop) {
-    const { RNRate } = NativeModules
     const options = Rate.filterOptions(inputOptions)
     if (Platform.OS === 'ios') {
       options.AppleNativePrefix = AppleNativePrefix
-      RNRate.rate(options, (response, error) => {
+      NativeRNRate.rate(options, (response, error) => {
         callback(response, error)
       })
     } else if (Platform.OS === 'android') {
       if (options.preferredAndroidMarket === AndroidMarket.Google) {
         if (options.preferInApp) {
-          RNRate.rate(options, (response, error)=>{
+          NativeRNRate.rate(options, (response, error)=>{
             if (!response) {
               if (options.openAppStoreIfInAppFails) {
                 Rate.openURL(GooglePrefix + options.GooglePackageName, callback)
