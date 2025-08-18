@@ -7,7 +7,7 @@
 #endif
 
 #if RCT_NEW_ARCH_ENABLED
-#import <React-Codegen/RNRateSpec/RNRateSpec.h>
+#import <ReactCodegen/RNRateSpec/RNRateSpec.h>
 #endif
 
 @interface RNRate : NSObject <RCTBridgeModule>

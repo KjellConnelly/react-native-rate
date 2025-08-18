@@ -5,7 +5,7 @@
 #import "StoreKit/StoreKit.h"
 
 #if RCT_NEW_ARCH_ENABLED
-#import <RNRateSpec/RNRateSpec.h>
+#import <ReactCodegen/RNRateSpec/RNRateSpec.h>
 #endif
 
 
