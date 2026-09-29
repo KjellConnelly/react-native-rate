@@ -1,0 +1,13 @@
+arguments=--init-script /var/folders/b4/nm80gvf50v768r5klbdvh1t00000gn/T/db3b08fc4a9ef609cb16b96b200fa13e563f396e9bb1ed0905fdab7bc3bc513b.gradle --init-script /var/folders/b4/nm80gvf50v768r5klbdvh1t00000gn/T/52cde0cfcf3e28b8b7510e992210d9614505e0911af0c190bd590d7158574963.gradle --init-script /var/folders/b4/nm80gvf50v768r5klbdvh1t00000gn/T/bd95fba452cd16942039615189e617a1932f63d661f1f661840274c40bc05cbb.gradle
+auto.sync=true
+build.scans.enabled=false
+connection.gradle.distribution=GRADLE_DISTRIBUTION(VERSION(8.9))
+connection.project.dir=
+eclipse.preferences.version=1
+gradle.user.home=
+java.home=/opt/homebrew/Cellar/openjdk@21/21.0.12.1/libexec/openjdk.jdk/Contents/Home
+jvm.arguments=
+offline.mode=false
+override.workspace.settings=true
+show.console.view=true
+show.executions.view=true
