@@ -1,5 +1,5 @@
 #import "RNRate.h"
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 #import "React/RCTConvert.h"
 
 @implementation RNRate
